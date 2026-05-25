@@ -5,10 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "N/A",
-    "start": "nodemon server.js",
-    "dev": "nodemon server.js"
-  },
+  "start": "node server.js",
+  "dev": "nodemon server.js"
+ },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/N/A.git"
