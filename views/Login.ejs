@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Login Page</title>
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eaf1ff 0%, #f6f9ff 100%);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin-top: 70px;
+        }
+
+        .login-wrapper {
+            min-height: calc(100vh - 70px);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .login-panel {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 18px 50px rgba(15, 23, 42, 0.12);
+            background: #fff;
+        }
+
+        .panel-left {
+            background: linear-gradient(135deg, #2f80ed 0%, #5b6cff 100%);
+            color: #fff;
+            padding: 60px 48px;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .panel-left h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .panel-left p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.95;
+            max-width: 520px;
+        }
+
+        .quote-box {
+            margin-top: 28px;
+            padding-left: 18px;
+            border-left: 4px solid rgba(255,255,255,0.55);
+            font-size: 1.05rem;
+            font-style: italic;
+            opacity: 0.95;
+        }
+
+        .panel-right {
+            padding: 58px 48px;
+            background: rgba(255,255,255,0.96);
+        }
+
+        .login-title {
+            color: #102a43;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            color: #6c757d;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #102a43;
+        }
+
+        .form-control {
+            height: 50px;
+            border-radius: 12px;
+            border: 1px solid #d7e0ea;
+        }
+
+        .form-control:focus {
+            border-color: #2f80ed;
+            box-shadow: 0 0 0 0.2rem rgba(47, 128, 237, 0.15);
+        }
+
+        .btn-primary {
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2f80ed 0%, #5b6cff 100%);
+            border: none;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1f6fe0 0%, #4c5df0 100%);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 18px;
+            color: #6c757d;
+        }
+
+        .login-footer a {
+            color: #2f80ed;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 991px) {
+            .panel-left, .panel-right {
+                padding: 36px 24px;
+            }
+
+            .panel-left h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .panel-left {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/Nav') %>
+
+    <div class="login-wrapper">
+        <div class="login-panel">
+            <div class="row g-0">
+                <div class="col-lg-6 panel-left">
+                    <h1>Welcome Back</h1>
+                    <p>
+                        Sign in to continue your journey with BlogNest. 
+                        Share stories, read amazing blogs, and connect with other creators.
+                    </p>
+                    <div class="quote-box">
+                        “Every great story begins with a single login.”
+                    </div>
+                </div>
+
+                <div class="col-lg-6 panel-right">
+                    <h2 class="login-title">Login</h2>
+                    <p class="login-subtitle">Enter your details to access your account</p>
+
+                    <form method="POST" action="/auth/api/login">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password" required>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                            </div>
+                            <a href="#" class="text-decoration-none">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+
+                    <div class="login-footer">
+                        Don't have an account? <a href="/signup">Sign up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/scripts') %>
+</body>
+</html>

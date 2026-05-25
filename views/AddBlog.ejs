@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Add Blog Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin-top: 70px;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* Hero Section */
+        .page-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .page-hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-hero p {
+            font-size: 18px;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Form Card */
+        .blog-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            padding: 45px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Image Preview Section */
+        .image-preview-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+            align-items: start;
+        }
+
+        .image-preview-container {
+            background: #f7fafc;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .image-preview-box {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef7 100%);
+            color: #cbd5e0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .image-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Form Group */
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Labels */
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .form-label-subtitle {
+            display: block;
+            font-size: 12px;
+            color: #718096;
+            font-weight: 500;
+            margin-top: 4px;
+            text-transform: none;
+        }
+
+        /* Input Fields */
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-control::placeholder {
+            color: #a0aec0;
+        }
+
+        /* Textarea */
+        textarea.form-control {
+            resize: vertical;
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
+        }
+
+        textarea.form-control:focus {
+            min-height: 220px;
+        }
+
+        /* File Input */
+        .file-input-wrapper {
+            position: relative;
+        }
+
+        .file-input-custom {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 10px;
+            background: #f7fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .file-input-custom:hover {
+            border-color: #667eea;
+            background: #f0f4f8;
+        }
+
+        .file-input-custom input[type="file"] {
+            display: none;
+        }
+
+        .file-input-label {
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .file-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .file-text-main {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .file-text-sub {
+            display: block;
+            color: #718096;
+            font-size: 13px;
+        }
+
+        .file-name-display {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #edf2f7;
+            border-radius: 6px;
+            color: #667eea;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Two Column Layout for smaller screens */
+        @media (max-width: 768px) {
+            .page-hero {
+                padding: 40px 20px;
+            }
+
+            .page-hero h1 {
+                font-size: 32px;
+            }
+
+            .blog-card {
+                padding: 28px 20px;
+            }
+
+            .submit-btn {
+                padding: 14px;
+                font-size: 15px;
+            }
+        }
+
+        /* Character Counter */
+        .char-count {
+            display: block;
+            font-size: 12px;
+            color: #a0aec0;
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        .char-count.warning {
+            color: #ed8936;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/Nav') %>
+
+    <!-- Hero Section -->
+    <div class="page-hero">
+        <h1>Create Your Blog</h1>
+        <p>Share your thoughts and stories with the world. Write engaging content that resonates with your readers.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="blog-card">
+            <form action="/blog/create-blog" method="POST" enctype="multipart/form-data">
+
+                <!-- Cover Image -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Cover Image
+                        <span class="form-label-subtitle">Upload an eye-catching image for your blog</span>
+                    </label>
+                    <div class="file-input-wrapper">
+                        <div class="file-input-custom" id="fileInputCustom">
+                            <label for="coverimage" class="file-input-label">
+                                <span class="file-icon">📷</span>
+                                <span class="file-text-main">Click to upload or drag and drop</span>
+                                <span class="file-text-sub">PNG, JPG, GIF (Max 5MB)</span>
+                            </label>
+                            <input type="file" class="form-control" id="coverimage" name="coverImageURL" accept="image/*">
+                        </div>
+                        <div id="fileName" class="file-name-display" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="title" class="form-label">
+                        Blog Title
+                        <span class="form-label-subtitle">Make it catchy and descriptive</span>
+                    </label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter your blog title here..." required>
+                    <span class="char-count"><span id="titleCount">0</span>/100 characters</span>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="title" class="form-label">
+                        Blog Topic
+                        <span class="form-label-subtitle">Select a topics of your vlog</span>
+                    </label>
+                    <select name="blogTopic" class="form-control" required>
+                        <option value="" disabled selected>Select a topic</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Travel & Tour">Travel & Tour</option>
+                        <option value="Food">Food</option>
+                        <option value="Education">Education</option>
+                        <option value="Health">Health</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="AI">AI</option>
+                        <option value="Nature">Nature</option>
+                        <option value="Cooking">Cooking</option>
+                        <option value="Jobs">Jobs</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Geopolitics">Geo Politics</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+
+
+                <!-- Content -->
+                <div class="form-group">
+                    <label for="floatingTextarea" class="form-label">
+                        Blog Content
+                        <span class="form-label-subtitle">Write detailed and engaging content</span>
+                    </label>
+                    <textarea class="form-control" id="floatingTextarea" name="body" placeholder="Start writing your amazing blog post here..." required></textarea>
+                    <span class="char-count"><span id="contentCount">0</span> characters</span>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">✓ Publish Blog</button>
+            </form>
+        </div>
+    </div>
+
+    <%- include('./partials/scripts') %>
+
+    <script>
+        // File input handler
+        const fileInputCustom = document.getElementById('fileInputCustom');
+        const fileInput = document.getElementById('coverimage');
+        const fileName = document.getElementById('fileName');
+
+        fileInputCustom.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileName.textContent = '✓ ' + e.target.files[0].name;
+                fileName.style.display = 'block';
+            }
+        });
+
+        // Drag and drop
+        fileInputCustom.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileInputCustom.style.borderColor = '#667eea';
+            fileInputCustom.style.background = '#f0f4f8';
+        });
+
+        fileInputCustom.addEventListener('dragleave', () => {
+            fileInputCustom.style.borderColor = '#cbd5e0';
+            fileInputCustom.style.background = '#f7fafc';
+        });
+
+        fileInputCustom.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInput.files = e.dataTransfer.files;
+            const event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
+            fileInputCustom.style.borderColor = '#cbd5e0';
+            fileInputCustom.style.background = '#f7fafc';
+        });
+
+        // Character counters
+        const titleInput = document.getElementById('title');
+        const contentInput = document.getElementById('floatingTextarea');
+        const titleCount = document.getElementById('titleCount');
+        const contentCount = document.getElementById('contentCount');
+
+        titleInput.addEventListener('input', () => {
+            titleCount.textContent = titleInput.value.length;
+            if (titleInput.value.length > 90) {
+                titleCount.parentElement.classList.add('warning');
+            } else {
+                titleCount.parentElement.classList.remove('warning');
+            }
+        });
+
+        contentInput.addEventListener('input', () => {
+            contentCount.textContent = contentInput.value.length;
+        });
+    </script>
+</body>
+</html>

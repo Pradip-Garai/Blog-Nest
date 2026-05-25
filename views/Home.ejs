@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Blog Home</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        body{
+            font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+            background:#f4f7fb;
+            color:#333;
+            margin-top:70px;
+        }
+
+        .container{
+            max-width:1300px;
+            margin:auto;
+            padding:40px 20px;
+        }
+
+        /* Hero Section */
+        .page-header{
+            text-align:center;
+            margin-bottom:40px;
+            padding:60px 20px;
+            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            border-radius:20px;
+            color:white;
+            box-shadow:0 10px 30px rgba(102,126,234,0.25);
+        }
+
+        .page-header h1{
+            font-size:44px;
+            font-weight:800;
+            margin-bottom:14px;
+            letter-spacing:-1px;
+        }
+
+        .page-header p{
+            font-size:18px;
+            opacity:0.95;
+            max-width:650px;
+            margin:auto;
+        }
+
+        /* Search Section */
+        .search-section{
+            background:white;
+            padding:30px;
+            border-radius:18px;
+            margin-bottom:45px;
+            box-shadow:0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .search-section h2{
+            text-align:center;
+            margin-bottom:22px;
+            font-size:28px;
+            color:#2d3748;
+        }
+
+        .search-box{
+            max-width:700px;
+            margin:auto;
+            display:flex;
+            gap:12px;
+        }
+
+        .search-box input{
+            flex:1;
+            padding:15px 18px;
+            border:2px solid #e2e8f0;
+            border-radius:12px;
+            font-size:15px;
+            outline:none;
+            transition:0.3s;
+            background:#f8fafc;
+        }
+
+        .search-box input:focus{
+            border-color:#667eea;
+            background:white;
+            box-shadow:0 0 0 4px rgba(102,126,234,0.08);
+        }
+
+        .search-box button{
+            padding:14px 24px;
+            border:none;
+            border-radius:12px;
+            background:#667eea;
+            color:white;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .search-box button:hover{
+            background:#5a67d8;
+        }
+
+        .reset-btn{
+            background:#718096 !important;
+        }
+
+        .reset-btn:hover{
+            background:#4a5568 !important;
+        }
+
+        .search-info{
+            margin-top:18px;
+            text-align:center;
+            color:#718096;
+            font-size:14px;
+            font-weight:500;
+        }
+
+        /* Blog Grid */
+        .blog-grid{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:32px;
+        }
+
+        /* MODERN BLOG CARD — cover image, title, topic tag, date, content preview, single READ button */
+        .card{
+            background:white;
+            border-radius:24px;
+            overflow:hidden;
+            transition:0.35s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow:0 12px 30px rgba(0,0,0,0.08);
+            border:1px solid rgba(226,232,240,0.6);
+            display:flex;
+            flex-direction:column;
+        }
+
+        .card:hover{
+            transform:translateY(-6px);
+            box-shadow:0 24px 48px rgba(0,0,0,0.12);
+            border-color:rgba(102,126,234,0.2);
+        }
+
+        /* Image wrapper */
+        .card-img-wrapper{
+            overflow:hidden;
+            background:#f1f5f9;
+            position:relative;
+        }
+
+        .card-img-top{
+            width:100%;
+            height:250px;
+            object-fit:cover;
+            transition:transform 0.5s ease;
+            display:block;
+        }
+
+        .card:hover .card-img-top{
+            transform:scale(1.05);
+        }
+
+        /* Card Body */
+        .card-body{
+            padding:24px 26px 28px;
+            flex:1;
+            display:flex;
+            flex-direction:column;
+        }
+
+        /* Topic + Date row */
+        .topic-date-row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:14px;
+            flex-wrap:wrap;
+            gap:8px;
+        }
+
+        /* Topic badge */
+        .blog-topic{
+            display:inline-flex;
+            align-items:center;
+            background:rgba(102,126,234,0.1);
+            padding:6px 14px;
+            border-radius:40px;
+            font-size:13px;
+            font-weight:700;
+            letter-spacing:0.3px;
+            color:#4c51bf;
+            border:1px solid rgba(102,126,234,0.25);
+        }
+
+        /* Date style */
+        .blog-date{
+            font-size:13px;
+            font-weight:500;
+            color:#5b6e8c;
+            background:transparent;
+            letter-spacing:0.2px;
+        }
+
+        /* Title styling */
+        .card-title{
+            font-size:22px;
+            font-weight:750;
+            line-height:1.35;
+            color:#0f172a;
+            margin-bottom:16px;
+        }
+
+        /* Content preview (excerpt) */
+        .content-preview{
+            color:#334155;
+            font-size:15px;
+            line-height:1.55;
+            margin-bottom:24px;
+            display:-webkit-box;
+            -webkit-line-clamp:3;
+            -webkit-box-orient:vertical;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            word-break:break-word;
+        }
+
+        /* Single READ button */
+        .btn-read{
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+            padding:12px 24px;
+            background:linear-gradient(105deg,#667eea 0%,#5c6bc0 100%);
+            color:white;
+            border-radius:40px;
+            text-decoration:none;
+            font-weight:600;
+            font-size:14px;
+            letter-spacing:0.3px;
+            transition:all 0.25s ease;
+            border:none;
+            cursor:pointer;
+            width:fit-content;
+            box-shadow:0 4px 10px rgba(102,126,234,0.25);
+            margin-top:auto;
+        }
+
+        .btn-read:hover{
+            transform:translateY(-2px);
+            background:linear-gradient(105deg,#5a67d8 0%,#4c51bf 100%);
+            box-shadow:0 10px 20px rgba(102,126,234,0.35);
+        }
+
+        /* No results */
+        .no-results{
+            text-align:center;
+            padding:80px 20px;
+            background:white;
+            border-radius:18px;
+            grid-column:1/-1;
+            box-shadow:0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .no-results h3{
+            font-size:30px;
+            margin-bottom:10px;
+        }
+
+        .no-results p{
+            color:#718096;
+        }
+
+        /* Responsive */
+        @media(max-width:1024px){
+            .blog-grid{
+                grid-template-columns:repeat(2,1fr);
+            }
+        }
+
+        @media(max-width:768px){
+            .page-header h1{
+                font-size:34px;
+            }
+
+            .blog-grid{
+                grid-template-columns:1fr;
+            }
+
+            .search-box{
+                flex-direction:column;
+            }
+
+            .container{
+                padding:20px;
+            }
+
+            .search-section{
+                padding:22px;
+            }
+
+            .card-body{
+                padding:20px;
+            }
+
+            .card-title{
+                font-size:20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <%- include('./partials/Nav') %>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <div class="page-header">
+            <h1>📝 Welcome to Our Blog</h1>
+            <p>
+                Discover amazing stories, insights, and knowledge from our creative community.
+            </p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <h2>🔍 Find Your Next Read</h2>
+
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search by title..."
+                    autocomplete="off"
+                >
+
+                <button onclick="searchBlogs()">Search</button>
+
+                <button onclick="resetSearch()" class="reset-btn">
+                    Reset
+                </button>
+            </div>
+
+            <div class="search-info" id="searchInfo"></div>
+        </div>
+
+        <!-- Blog Grid -->
+        <div class="blog-grid" id="blogGrid">
+
+            <% if (blogs && blogs.length > 0) { %>
+
+                <% blogs.forEach(blog => { 
+                    // Format date safely (server-side compatible)
+                    let formattedDate = '';
+                    if(blog.createdAt) {
+                        const dateObj = new Date(blog.createdAt);
+                        if(!isNaN(dateObj.getTime())) {
+                            formattedDate = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        } else {
+                            formattedDate = 'Recent';
+                        }
+                    } else if(blog.date) {
+                        const dateObj = new Date(blog.date);
+                        if(!isNaN(dateObj.getTime())) {
+                            formattedDate = dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                        } else {
+                            formattedDate = blog.date;
+                        }
+                    } else {
+                        formattedDate = 'Just now';
+                    }
+                    
+                    // Generate clean content preview WITHOUT using document (server-safe)
+                    let contentText = blog.body || blog.content || '';
+                    // Remove HTML tags using regex (safe for server-side)
+                    let plainText = String(contentText).replace(/<[^>]*>/g, '');
+                    // Limit preview to ~120 chars
+                    let previewText = plainText.length > 120 ? plainText.substring(0, 120).trim() + '...' : plainText;
+                    if (!previewText || previewText.trim() === '') previewText = 'No preview available. Click to read the full story.';
+                %>
+
+                    <div class="card" data-title="<%= blog.title ? blog.title.toLowerCase() : '' %>">
+
+                        <div class="card-img-wrapper">
+                            <img 
+                                src="<%= blog.coverImageURL || 'https://via.placeholder.com/400x240?text=Cover+Image' %>"
+                                class="card-img-top"
+                                alt="<%= blog.title || 'Blog cover' %>"
+                                loading="lazy"
+                                onerror="this.src='https://via.placeholder.com/400x240?text=Image+Not+Found'"
+                            >
+                        </div>
+
+                        <div class="card-body">
+                            <!-- Topic + Date row -->
+                            <div class="topic-date-row">
+                                <span class="blog-topic">
+                                    <%= blog.blogTopic || 'Story' %>
+                                </span>
+                                <span class="blog-date">
+                                    <%= formattedDate %>
+                                </span>
+                            </div>
+
+                            <!-- Blog Title -->
+                            <h5 class="card-title">
+                                <%= blog.title || 'Untitled Journey' %>
+                            </h5>
+
+                            <!-- Content Overview / Snippet -->
+                            <div class="content-preview">
+                                <%= previewText %>
+                            </div>
+
+                            <!-- Single READ button -->
+                            <% if (blog._id) { %>
+                                <a href="/blog/<%= blog._id %>" class="btn-read">
+                                    Read Article →
+                                </a>
+                            <% } else { %>
+                                <span class="btn-read" style="opacity:0.6; cursor:not-allowed; background:#94a3b8;">
+                                    Unavailable
+                                </span>
+                            <% } %>
+                        </div>
+                    </div>
+
+                <% }) %>
+
+            <% } else { %>
+
+                <div class="no-results">
+                    <h3>No blogs found</h3>
+                    <p>Check back later for new content!</p>
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Search functionality - works with the new card structure
+        const allCards = document.querySelectorAll('.card');
+        const searchInfo = document.getElementById('searchInfo');
+        const searchInput = document.getElementById('searchInput');
+
+        function searchBlogs(){
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            allCards.forEach(card => {
+                const titleAttr = card.getAttribute('data-title') || '';
+                if(searchTerm === ''){
+                    card.style.display = '';
+                    visibleCount = allCards.length;
+                } else if(titleAttr.includes(searchTerm)){
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if(searchTerm === ''){
+                searchInfo.textContent = `✨ Showing all ${visibleCount} blogs`;
+            } else {
+                searchInfo.textContent = `🔎 Found ${visibleCount} results for "${searchTerm}"`;
+            }
+        }
+
+        function resetSearch(){
+            searchInput.value = '';
+            allCards.forEach(card => {
+                card.style.display = '';
+            });
+            searchInfo.textContent = `✨ Showing all ${allCards.length} blogs`;
+        }
+
+        if(searchInput){
+            searchInput.addEventListener('keypress', function(e){
+                if(e.key === 'Enter'){
+                    searchBlogs();
+                }
+            });
+        }
+
+        if(allCards.length > 0){
+            searchInfo.textContent = `✨ Showing all ${allCards.length} blogs`;
+        }
+    </script>
+
+    <%- include('./partials/scripts') %>
+
+</body>
+</html>

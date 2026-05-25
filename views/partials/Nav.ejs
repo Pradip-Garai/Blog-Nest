@@ -1,0 +1,145 @@
+<nav class="navbar navbar-expand-lg navbar-dark blog-navbar shadow-sm">
+  <div class="container-fluid px-3">
+    <img src="/Blognest.png" alt="BlogNest Logo" style="height:40px; width:auto;">
+
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+        <% if (locals.user) { %>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom <%= locals.currentPage === 'home' ? 'active' : '' %>" aria-current="page" href="/">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom <%= locals.currentPage === 'add-blog' ? 'active' : '' %>" href="/add-blog">Add Blog</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom <%= locals.currentPage === 'my-blogs' ? 'active' : '' %>" href="/my-blogs">My Blogs</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle nav-link-custom user-drop" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="user-badge"><%= locals.user.name.charAt(0).toUpperCase() %></span>
+              <span><%= locals.user.name %></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end custom-dropdown">
+              <li>
+                <a class="dropdown-item" href="/profile">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 8px;">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm.068 5c.906 0 1.384.481 1.384 1.926v.922H.5v-.922C.5 10.479.978 10 1.868 10h.236.094c.868 0 1.36.479 1.68 1.022h5.256z"/>
+                  </svg>
+                  Profile
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form action="/auth/api/logout" method="GET">
+                  <button style="padding-right: 6rem; padding-top: 0.5rem; padding-bottom:0.5rem; border: none; color: white; background-color: #343a40;  " type="submit">Logout</button>
+                </form>
+              </li>
+            </ul>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<% if (locals.error) { %>
+  <div class="container mt-4">
+    <div class="alert alert-danger custom-alert" id="errorAlert" role="alert">
+      <%= locals.error %>
+    </div>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      const alertBox = document.getElementById("errorAlert");
+      if (alertBox) {
+        alertBox.remove();
+      }
+    }, 1000);
+  </script>
+<% } %>
+
+<style>
+  .blog-navbar {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #111827 100%);
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1030;
+  }
+
+  .brand-text {
+    font-size: 1.35rem;
+    letter-spacing: 0.3px;
+    color: #ffffff !important;
+  }
+
+  .nav-link-custom {
+    color: rgba(255, 255, 255, 0.82) !important;
+    font-weight: 500;
+    border-radius: 10px;
+    padding: 0.55rem 0.95rem !important;
+    transition: all 0.2s ease;
+  }
+
+  .nav-link-custom:hover,
+  .nav-link-custom.active {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.10);
+  }
+
+  .user-drop {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .user-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2f80ed 0%, #5b6cff 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .custom-dropdown {
+    border: 0;
+    border-radius: 14px;
+    padding: 0.5rem;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.25);
+  }
+
+  .custom-dropdown .dropdown-item {
+    border-radius: 10px;
+    padding: 0.7rem 0.9rem;
+  }
+
+  .custom-dropdown .dropdown-item:hover {
+    background: rgba(47, 128, 237, 0.12);
+  }
+
+  .custom-alert {
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgba(220, 53, 69, 0.12);
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+</style>

@@ -1,0 +1,42 @@
+{
+  "name": "blogging",
+  "version": "1.0.0",
+  "description": "Develop a Blogging Website",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "N/A",
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/N/A.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Express.js",
+    "EJS",
+    "MongoDB",
+    "Multer",
+    "JWT",
+    "bcrypt"
+  ],
+  "author": "Pradip Garai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/N/A/issues"
+  },
+  "homepage": "https://github.com/N/A#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^1.41.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.6.2",
+    "multer": "^2.1.1",
+    "multer-storage-cloudinary": "^4.0.0"
+  }
+}
